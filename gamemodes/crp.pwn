@@ -60,7 +60,7 @@ PlayerPlayerActionMessage(playerid,targetid,Float:radius,message; - Two user act
 */
 
 //============[SYSTEM RELATED MESSAGE DEFINES]========
-#define BUSINESS_TYPES "1: Restaurant - 2: Phone - 3: 24-7 - 4: Ammunation - 5: Advertising - 6: Clothes Store - 7. Bar/Club"
+#define BUSINESS_TYPES "1: Restaurant - 2: Telefon - 3: 24-7 - 4: Munition - 5: Werbung - 6: Klamottenladen - 7. Bar/Club"
 #define BUSINESS_TYPES2 " "
 //====================================================
 
@@ -1324,7 +1324,7 @@ public OnPlayerConnect(playerid)
 	if(RPName(PlayerName(playerid),first,last))
 	{
 		SendClientMessage(playerid,COLOR_YELLOW,"____________________________________________________");
-		SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"                        Immigration:                           ");
+		SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"               Einwanderungsbehörde:                           ");
 		new sendername[MAX_PLAYER_NAME];
 		new accstring[128];
 		GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -1332,18 +1332,18 @@ public OnPlayerConnect(playerid)
 		new File: hFile = fopen(accstring, io_read);
 		if (hFile)
 		{
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] You are already a citizen, type your password below.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] Du bist bereits Staatsmitglied, tippe dein Passwort ein!");
 			fclose(hFile);
 		}
 		else
 		{
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] You are not a citizen, type your desired password to register.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] Du bist kein Staatsmitglied, wähle ein Passwort deiner Wahl!");
 		}
 		SendClientMessage(playerid,COLOR_YELLOW,"____________________________________________________");
 	}
 	else
 	{
-	    KickPlayer(playerid,"System","Invalid Name, Correct Format: Firstname_lastname.");
+	    KickPlayer(playerid,"System","Falsche Namensangabe, Korrektes Format: Name_Nachname. Der Unterstrich wird später nicht zu sehen sein!");
 	}
 	return 1;
 }
@@ -1488,8 +1488,8 @@ public OnPlayerDeath(playerid, killerid, reason)
 		    {
 		        if(!AdminDuty[killerid])
 		        {
-					KickPlayer(killerid,"System","Killing an administrator on duty with abuse.");
-					format(string, sizeof(string), "[INFO:] System has kicked %s, Reason: Killing an administrator on duty with abuse. ", PlayerName(killerid));
+					KickPlayer(killerid,"System","hat einen Administrator im Dienst zur Strecke gebracht!");
+					format(string, sizeof(string), "[INFO:] System hat %s gekicked, Grund: Administrator im Dienst getötet! ", PlayerName(killerid));
 					KickLog(string);
 				}
 		    }
@@ -1516,7 +1516,7 @@ public OnPlayerText(playerid, text[])
 	
 	if(Muted[playerid])
 	{
-		SendClientMessage(playerid, COLOR_RED, "[ERROR:] You can't speak, your muted.");
+		SendClientMessage(playerid, COLOR_RED, "[FEHLER:] Du kannst nicht sprechen, du wurdest gemutet!");
 		return 0;
 	}
 	//=================================[PASSWORD]======================================
@@ -1544,7 +1544,7 @@ public OnPlayerText(playerid, text[])
 	{
 	    if(text[1] != 0)
 	    {
-		    format(string, sizeof(string), "(( [LOCAL OOC:] %s says: %s ))", PlayerName(playerid),text[1]);
+		    format(string, sizeof(string), "(( [LOCAL OOC:] %s sagt: %s ))", PlayerName(playerid),text[1]);
 			ProxDetector(20.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 			OOCLog(string);
 	   		return 0;
@@ -1556,15 +1556,15 @@ public OnPlayerText(playerid, text[])
 	    if (age >= 16 && age <= 100)
 	 	{
 		 	new wstring[128];
-		    format(wstring, sizeof(wstring), "[INFO:] You have set your age to: %d.", age);
+		    format(wstring, sizeof(wstring), "[INFO:] Du hast %d als Alter angegeben!", age);
 		    SendClientMessage(playerid,COLOR_LIGHTYELLOW2, wstring);
 	    	PlayerInfo[playerid][pAge] = age;
 	    	RegistrationStep[playerid] = 2;
-	 	    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[INFO:] What's your Sex? Please type, Male or Female.");
+	 	    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[INFO:] Was ist dein Geschlecht? Männlich oder Weiblich?");
 	 	}
 	 	else
 	 	{
-	 	    SendClientMessage(playerid,COLOR_RED,"[INFO:] Invalid age, correct ages are 16-100.");
+	 	    SendClientMessage(playerid,COLOR_RED,"[INFO:] Ungültiges Alter, gültig ist nur 16-100 Jahre!");
 	 	}
 		return 0;
 	}
@@ -1572,19 +1572,19 @@ public OnPlayerText(playerid, text[])
   	{
   	    new idx2;
     	tmp = strtok(text, idx2);
-	    if((strcmp("male", tmp, true, strlen(tmp)) == 0) && (strlen(tmp) == strlen("male")))
+	    if((strcmp("männlich", tmp, true, strlen(tmp)) == 0) && (strlen(tmp) == strlen("männlich")))
 		{
   			PlayerInfo[playerid][pSex] = 1;
-   			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] You have set your sex to: Male.");
+   			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] Du hast dein Geschlecht gewählt: Männlich.");
 	    	RegistrationStep[playerid] = 0;
 			TogglePlayerControllable(playerid,1);
 			PlayerInfo[playerid][pRegistered] = 1;
 		    return 0;
 		}
-		else if((strcmp("female", tmp, true, strlen(tmp)) == 0) && (strlen(tmp) == strlen("female")))
+		else if((strcmp("weiblich", tmp, true, strlen(tmp)) == 0) && (strlen(tmp) == strlen("weiblich")))
 		{
   			PlayerInfo[playerid][pSex] = 2;
-  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] You have set your sex to: Female.");
+  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] Du hast dein Geschlecht gewählt : Weiblich.");
 			RegistrationStep[playerid] = 0;
 			TogglePlayerControllable(playerid,1);
 			PlayerInfo[playerid][pRegistered] = 1;
@@ -1592,24 +1592,24 @@ public OnPlayerText(playerid, text[])
 		}
 		else
 		{
-  			SendClientMessage(playerid, COLOR_RED, "[INFO:] Invalid sex, type male/female.");
+  			SendClientMessage(playerid, COLOR_RED, "[INFO:] Ungültige Eingabe. Tippe männlich/weiblich!");
 	 	}
 		return 0;
 	}
 	if(Mobile[playerid] == 911)
 	{
-		format(string, sizeof(string), "[911 CALL:] %s(ID:%d) says: %s",GetPlayerNameEx(playerid),playerid,text);
+		format(string, sizeof(string), "[911 CALL:] %s(ID:%d) sagt: %s",GetPlayerNameEx(playerid),playerid,text);
 		SendFactionTypeMessage(1, COLOR_LSPD, string);
-		SendClientMessage(playerid,COLOR_WHITE,"Operator says: Your call has been recorded, please standby.");
+		SendClientMessage(playerid,COLOR_WHITE,"Operator sagt: Deine Meldung wurde aufgenommen. Bitte warten Sie, sie werden verbunden!");
 		Mobile[playerid] = 255;
-		format(string, sizeof(string), "[Phone] %s says: %s", GetPlayerNameEx(playerid), text);
+		format(string, sizeof(string), "[Handy] %s sagt: %s", GetPlayerNameEx(playerid), text);
 		ProxDetector(20.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 		TalkLog(string);
 		return 0;
 	}
 	if(Mobile[playerid] != 255)
 	{
-		format(string, sizeof(string), "[Phone] %s says: %s", GetPlayerNameEx(playerid), text);
+		format(string, sizeof(string), "[Handy] %s sagt: %s", GetPlayerNameEx(playerid), text);
 		ProxDetector(20.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
         TalkLog(string);
         
@@ -1626,14 +1626,14 @@ public OnPlayerText(playerid, text[])
 				}
 				if(SpeakerPhone[Mobile[playerid]])
 				{
-					format(string, sizeof(string), "[Speaker] %s says: %s", GetPlayerNameEx(playerid), text);
+					format(string, sizeof(string), "[Lautsprecher] %s sagt: %s", GetPlayerNameEx(playerid), text);
 					ProxDetector(20.0, Mobile[playerid], string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 				}
 			}
 		}
   		else
 		{
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2,"[ERROR:] Theres nobody on the line.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2,"[FEHLER:] Niemand ist unter dieser Nummer zu erreichen!");
 		}
 		return 0;
 	}
@@ -1645,7 +1645,7 @@ public OnPlayerText(playerid, text[])
       	}
       	if(!IsPlayerInAnyVehicle(playerid) || IsABike(GetPlayerVehicleID(playerid)))
       	{
-			format(string, sizeof(string), "%s says: %s", GetPlayerNameEx(playerid), text);
+			format(string, sizeof(string), "%s sagt: %s", GetPlayerNameEx(playerid), text);
 			ProxDetector(20.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 			TalkLog(string);
 		}
@@ -1653,13 +1653,13 @@ public OnPlayerText(playerid, text[])
 		{
 		    if(CarWindowStatus[GetPlayerVehicleID(playerid)] == 1)
 		    {
-				format(string, sizeof(string), "[Windows Up] %s says: %s", GetPlayerNameEx(playerid), text);
+				format(string, sizeof(string), "[Fenster geöffnet] %s sagt: %s", GetPlayerNameEx(playerid), text);
 				ProxDetector(20.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 				TalkLog(string);
 			}
 			else
 			{
-				format(string, sizeof(string), "[Windows Down] %s says: %s", GetPlayerNameEx(playerid), text);
+				format(string, sizeof(string), "[Fenster geschlossen] %s sagt: %s", GetPlayerNameEx(playerid), text);
 				ProxDetector(20.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 				TalkLog(string);
 			}
@@ -1674,16 +1674,16 @@ public OnPlayerPrivmsg(playerid, recieverid, text[])
 	new string[128];
 	if(PMsEnabled[recieverid])
 	{
-		format(string, sizeof(string), "[OOCPM:] PM from %s(%d): %s", GetPlayerNameEx(playerid),playerid, text);
+		format(string, sizeof(string), "[OOCPM:] PM von %s(%d): %s", GetPlayerNameEx(playerid),playerid, text);
 		SendClientMessage(recieverid,COLOR_MEDIUMBLUE,string);
-		format(string, sizeof(string), "[OOCPM:] PM sent to %s(%d): %s", GetPlayerNameEx(recieverid),recieverid, text);
+		format(string, sizeof(string), "[OOCPM:] PM gesendet an %s(%d): %s", GetPlayerNameEx(recieverid),recieverid, text);
 		SendClientMessage(playerid,COLOR_MEDIUMBLUE,string);
 		PMLog(string);
 		return 0;
 	}
 	else
 	{
-	    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] That user has disabled PM's.");
+	    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Dieser Staatsbürger möchte keine PMs empfangen.");
 	}
 	return 0;
 }
@@ -1709,7 +1709,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator!");
 			}
 		}
 		return 1;
@@ -1770,7 +1770,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 	        if(gPlayerLogged[playerid] == 0)
 	        {
-	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not logged in!");
+	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not logged in!");
 	            return 1;
 	        }
 			new length = strlen(cmdtext);
@@ -1803,7 +1803,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				        	{
 								if ((!adds) && (PlayerInfo[playerid][pAdmin] < 1))
 								{
-									format(string, sizeof(string), "[ERROR:] You must wait %d seconds before making another advertisement.",  (addtimer/1000));
+									format(string, sizeof(string), "[FEHLER:] You must wait %d seconds before making another advertisement.",  (addtimer/1000));
 									SendClientMessage(playerid, COLOR_LIGHTYELLOW2, string);
 									return 1;
 
@@ -1811,7 +1811,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								new payout = idx * 25;
 								if(GetPlayerCash(playerid) < payout)
 						        {
-						            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+						            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 						            return 1;
 						        }
 						        GivePlayerCash(playerid, - payout);
@@ -1833,18 +1833,18 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] The business is out of products.");
+								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] The business is out of products.");
 							}
 						}
 						else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] This business is not an advertising company.");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] This business is not an advertising company.");
 						}
 					}
 	   			}
 	   			else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at/in a business.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at/in a business.");
 				}
 			}
 		}
@@ -2120,7 +2120,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					new id2;
 					id2 = strval(tmp);
-					if(id2 < 1 || id2 > 42) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Interior ID's 1-42."); return 1; }
+					if(id2 < 1 || id2 > 42) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Interior ID's 1-42."); return 1; }
 					
 					if(id2 == 1)
 					{
@@ -2459,7 +2459,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					new id2;
 					id2 = strval(tmp);
-					if(id2 < 1 || id2 > 17) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Interior ID's 1-17."); return 1; }
+					if(id2 < 1 || id2 > 17) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Interior ID's 1-17."); return 1; }
 
 					if(id2 == 1)
 					{
@@ -2657,7 +2657,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					new id2;
 					id2 = strval(tmp);
-					if(id2 < 1 || id2 > 33) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Interior ID's 1-33."); return 1; }
+					if(id2 < 1 || id2 > 33) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Interior ID's 1-33."); return 1; }
 
 					if(id2 == 1)
 					{
@@ -3041,12 +3041,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Symbol, | is not allowed!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Symbol, | is not allowed!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -3229,12 +3229,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
  				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid symbol, | is not allowed!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid symbol, | is not allowed!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator!");
 			}
 		}
 		return 1;
@@ -3305,23 +3305,23 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTGREEN, "[ERROR:] That user's number isn't public listed.");
+							    SendClientMessage(playerid, COLOR_LIGHTGREEN, "[FEHLER:] That user's number isn't public listed.");
 							}
 						}
       					else
 						{
-    						SendClientMessage(playerid, COLOR_LIGHTGREEN, "[ERROR:] That player isn't logged in.");
+    						SendClientMessage(playerid, COLOR_LIGHTGREEN, "[FEHLER:] That player isn't logged in.");
 						}
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid player ID/Name.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid player ID/Name.");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even have a phonebook! You can buy one from a 24-7 store.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even have a phonebook! You can buy one from a 24-7 store.");
 			}
 		}
 		return 1;
@@ -3462,12 +3462,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid symbol, | is not allowed!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid symbol, | is not allowed!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -4229,7 +4229,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] The person you tried to report is not connected.");
+			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] The person you tried to report is not connected.");
 			}
 		}
 		return 1;
@@ -4319,12 +4319,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Symbol, | is not allowed!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Symbol, | is not allowed!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -4369,12 +4369,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Symbol, | is not allowed!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Symbol, | is not allowed!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -4744,12 +4744,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid symbol, | is not allowed!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid symbol, | is not allowed!");
 					}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator!");
 			}
 		}
 		return 1;
@@ -5042,7 +5042,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -5089,7 +5089,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -5140,7 +5140,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -5195,13 +5195,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
     			else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the duty position!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the duty position!");
 					return 1;
 				}
 			}
    			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction/Type.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction/Type.");
 				return 1;
 			}
 		}
@@ -5237,12 +5237,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not on duty!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not on duty!");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}//not connected
 		return 1;
@@ -5260,7 +5260,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				if(CopOnDuty[playerid] == 0)
     			{
-	        		SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not on duty.");
+	        		SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not on duty.");
 	        		return 1;
     			}
 				giveplayerid = ReturnUser(tmp);
@@ -5270,12 +5270,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				    {
 					    if(PlayerCuffed[giveplayerid] == 1)
 					    {
-					        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That person is already cuffed.");
+					        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That person is already cuffed.");
 					        return 1;
 					    }
 						if (ProxDetectorS(8.0, playerid, giveplayerid))
 						{
-						    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't cuff yourself!"); return 1; }
+						    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't cuff yourself!"); return 1; }
         					format(string, sizeof(string), "[INFO:] Cuffed by %s.", GetPlayerNameEx(playerid));
 							SendClientMessage(giveplayerid, COLOR_RED, string);
 							format(string, sizeof(string), "[INFO:] %s successfully cuffed.", GetPlayerNameEx(giveplayerid));
@@ -5286,20 +5286,20 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not near you!");
+						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not near you!");
 						    return 1;
 						}
 					}
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 				    return 1;
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}
 		return 1;
@@ -5317,7 +5317,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				if(CopOnDuty[playerid] == 0)
     			{
-	        		SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not on duty.");
+	        		SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not on duty.");
 	        		return 1;
     			}
 				giveplayerid = ReturnUser(tmp);
@@ -5327,12 +5327,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				    {
 					    if(PlayerCuffed[giveplayerid] == 0)
 					    {
-					        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That person is not cuffed.");
+					        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That person is not cuffed.");
 					        return 1;
 					    }
 						if (ProxDetectorS(8.0, playerid, giveplayerid))
 						{
-						    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't uncuff yourself!"); return 1; }
+						    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't uncuff yourself!"); return 1; }
         					format(string, sizeof(string), "[INFO:] Uncuffed by %s.", GetPlayerNameEx(playerid));
 							SendClientMessage(giveplayerid, COLOR_RED, string);
 							format(string, sizeof(string), "[INFO:] %s successfully uncuffed.", GetPlayerNameEx(giveplayerid));
@@ -5343,20 +5343,20 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not near you!");
+						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not near you!");
 						    return 1;
 						}
 					}
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 				    return 1;
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}
 		return 1;
@@ -5378,8 +5378,8 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 				    if (ProxDetectorS(8.0, playerid, giveplayerid))
 					{
-					    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't frisk yourself!"); return 1; }
-					    if(CopOnDuty[playerid] == 0) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not even on duty."); return 1; }
+					    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't frisk yourself!"); return 1; }
+					    if(CopOnDuty[playerid] == 0) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not even on duty."); return 1; }
 					    new text1[128], text2[128];
 					    if(PlayerInfo[giveplayerid][pDrugs] > 0) { text1 = "[FRISK:] Drugs found."; } else { text1 = "[FRISK:] No drugs found."; }
 					    if(PlayerInfo[giveplayerid][pMaterials] > 0) { text2 = "[FRISK] Weapon materials found."; } else { text2 = "[FRISK:] No materials found."; }
@@ -5408,14 +5408,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Not close enough!");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Not close enough!");
 					    return 1;
 					}
 				}
 			}
 	        else
 	        {
-	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 	            return 1;
 	        }
 		}
@@ -5456,14 +5456,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not in range.");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not in range.");
 							    return 1;
 							}
 					    }
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					    return 1;
 					}
 				}
@@ -5489,14 +5489,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not in range.");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not in range.");
 							    return 1;
 							}
 					    }
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					    return 1;
 					}
 				}
@@ -5522,14 +5522,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					        }
 					        else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not in range.");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not in range.");
 							    return 1;
 							}
 					    }
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					    return 1;
 					}
 				}
@@ -5555,14 +5555,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 					        else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not in range.");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not in range.");
 							    return 1;
 							}
 					    }
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					    return 1;
 					}
 				}
@@ -5588,14 +5588,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 					        else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not in range.");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not in range.");
 							    return 1;
 							}
 					    }
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					    return 1;
 					}
 				}
@@ -5621,26 +5621,26 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 					        else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not in range.");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not in range.");
 							    return 1;
 							}
 					    }
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					    return 1;
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Name.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Name.");
 					return 1;
 				}
 	        }
 	        else
 	        {
-	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 	            return 1;
 	        }
 	    }
@@ -5654,12 +5654,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 			    if(CopOnDuty[playerid] == 0)
 			    {
-			    	SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not even on duty!");
+			    	SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not even on duty!");
 			        return 1;
 			    }
 			    if(IsPlayerInAnyVehicle(playerid))
 			    {
-			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't use this whilst your in a car!");
+			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't use this whilst your in a car!");
 			        return 1;
 			    }
 			    new suspect = GetClosestPlayer(playerid);
@@ -5667,14 +5667,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 				    if(PlayerCuffed[suspect] == 1)
 				    {
-				        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That person is cuffed!");
+				        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That person is cuffed!");
 				        return 1;
 				    }
 				    if(GetDistanceBetweenPlayers(playerid,suspect) < 5)
 					{
 					    if(IsPlayerInAnyVehicle(suspect))
 					    {
-					        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Get the suspect out of the vehicle!");
+					        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Get the suspect out of the vehicle!");
 					        return 1;
 					    }
 						format(string, sizeof(string), "[INFO:] Tazed by %s for 7 seconds.", GetPlayerNameEx(playerid));
@@ -5688,14 +5688,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		            }
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] No one in range.");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] No one in range.");
 					    return 1;
 					}
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid faction.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid faction.");
 			}
 		}//not connected
 	    return 1;
@@ -5708,7 +5708,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 		        if(CopOnDuty[playerid] == 0)
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not even on duty!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not even on duty!");
 				    return 1;
 				}
 		    	tmp = strtok(cmdtext, idx);
@@ -5726,7 +5726,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				new moneys;
 				moneys = strval(tmp);
-				if(moneys < 1 || moneys > 99999) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid amount."); return 1; }
+				if(moneys < 1 || moneys > 99999) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid amount."); return 1; }
 				if(IsPlayerConnected(giveplayerid))
 				{
 				    if(giveplayerid != INVALID_PLAYER_ID)
@@ -5762,20 +5762,20 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not close enough!");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not close enough!");
 							return 1;
 						}
 					}
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 				    return 1;
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}
 		return 1;
@@ -5788,7 +5788,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 				if(PlayerInfo[playerid][pRank] != 1)
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Only the leader can use this.");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Only the leader can use this.");
 				    return 1;
 				}
 				new length = strlen(cmdtext);
@@ -5819,12 +5819,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not even on duty!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not even on duty!");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}
 		return 1;
@@ -5835,7 +5835,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 		    if(PlayerInfo[playerid][pJob] != 4)
 		    {
-		        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not a lawyer!");
+		        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not a lawyer!");
 		        return 1;
 		    }
 			tmp = strtok(cmdtext, idx);
@@ -5849,7 +5849,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
             {
                 if(giveplayerid != INVALID_PLAYER_ID)
                 {
-                    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't free yourself."); return 1; }
+                    if(giveplayerid == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't free yourself."); return 1; }
 					if(PlayerInfo[giveplayerid][pJailed] == 1)
 					{
 							if(GetDistanceBetweenPlayers(playerid,giveplayerid) < 5)
@@ -5868,23 +5868,23 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-									SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Players jail time must be 7 minutes or below.");
+									SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Players jail time must be 7 minutes or below.");
 								}
 							}
 							else
 							{
-								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not near that player.");
+								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not near that player.");
 							}
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not jailed.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not jailed.");
 					}
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -5897,12 +5897,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 				if(CopOnDuty[playerid] == 0)
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You arn't even on duty!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You arn't even on duty!");
 				    return 1;
 				}
 		        if(!PlayerToPoint(15.0, playerid, PoliceArrestPosition[X],PoliceArrestPosition[Y],PoliceArrestPosition[Z]) || GetPlayerVirtualWorld(playerid) != PoliceArrestPosition[World])
 				{// Jail spot
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You must be at arrest location!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You must be at arrest location!");
 				    return 1;
 				}
 				tmp = strtok(cmdtext, idx);
@@ -5920,7 +5920,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					{
 						if(WantedLevel[suspect] < 1)
 						{
-						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player isn't even wanted!");
+						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player isn't even wanted!");
 						    return 1;
 						}
 						format(string, sizeof(string), "[INFO:] %s successfully arrested.", GetPlayerNameEx(suspect));
@@ -5944,13 +5944,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}//not connected
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not near a criminal!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not near a criminal!");
 				    return 1;
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			    return 1;
 			}
 		}//not connected
@@ -5983,17 +5983,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 			    if(!IsPlayerInAnyVehicle(playerid))
 			    {
-			    	SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in a car.");
+			    	SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in a car.");
 					return 1;
 			    }
 		    	if(!CopOnDuty[playerid])
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not even on cop duty!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not even on cop duty!");
 					return 1;
 				}
 				if(DynamicCars[tmpcar][FactionCar] != PlayerInfo[playerid][pFaction])
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in a faction vehicle.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in a faction vehicle.");
 					return 1;
 				}
 				new rank = PlayerInfo[playerid][pRank];
@@ -6061,7 +6061,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 				return 1;
 			}
 		}
@@ -6095,7 +6095,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			if(Muted[playerid])
 			{
-				SendClientMessage(playerid, COLOR_RED, "[ERROR:] You can't use the radio, your muted.");
+				SendClientMessage(playerid, COLOR_RED, "[FEHLER:] You can't use the radio, your muted.");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pFaction] != 255 && DynamicFactions[PlayerInfo[playerid][pFaction]][fType] == 1)
@@ -6175,12 +6175,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 		     		else
 					{
-						SendClientMessage(playerid,COLOR_LIGHTYELLOW2, "[ERROR:] Your not even on duty!");
+						SendClientMessage(playerid,COLOR_LIGHTYELLOW2, "[FEHLER:] Your not even on duty!");
      				}
 			}
 			else
 			{
-				SendClientMessage(playerid,COLOR_LIGHTYELLOW2, "[ERROR:] You are not a member of the required faction/type.");
+				SendClientMessage(playerid,COLOR_LIGHTYELLOW2, "[FEHLER:] You are not a member of the required faction/type.");
 			}
 		}
 		return 1;
@@ -6212,7 +6212,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			if(Muted[playerid])
 			{
-				SendClientMessage(playerid, COLOR_RED, "[ERROR:] You can't use faction chat, your muted.");
+				SendClientMessage(playerid, COLOR_RED, "[FEHLER:] You can't use faction chat, your muted.");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pFaction] != 255)
@@ -6290,7 +6290,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid,COLOR_LIGHTYELLOW2, "[ERROR:] You are not a member of a faction!");
+				SendClientMessage(playerid,COLOR_LIGHTYELLOW2, "[FEHLER:] You are not a member of a faction!");
 			}
 		}
 		return 1;
@@ -6320,7 +6320,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							{
 						        if(DynamicFactions[faction][fJoinRank] == 0)
 						        {
-						            SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Please set your factions joinrank/rankamount before inviting people!");
+						            SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Please set your factions joinrank/rankamount before inviting people!");
 						        }
 						        else
 						        {
@@ -6334,23 +6334,23 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-							    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] That person is not logged in!");
+							    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] That person is not logged in!");
 							}
 						}
 					}
 		 			else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					}
 				}
  				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] The person you tried to invite is already in a faction.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] The person you tried to invite is already in a faction.");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not a leader!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not a leader!");
 			}
 		}
 		return 1;
@@ -6392,22 +6392,22 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 	      				else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That players not logged in.");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That players not logged in.");
 						}
 					}
 		 			else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 					}
 				}
  				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You tried to uninvite someone who's not in your faction.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You tried to uninvite someone who's not in your faction.");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not a leader!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not a leader!");
 			}
 		}
 		return 1;
@@ -6463,33 +6463,33 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-									SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That players not logged in!");
+									SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That players not logged in!");
 								}
 							}
 							else
 							{
-								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID/Player Not Connected.");
+								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID/Player Not Connected.");
 							}
 						}
 						else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Rank must be below or equal to the factions rank amount.");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Rank must be below or equal to the factions rank amount.");
 						}
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You must enter an amount!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You must enter an amount!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] The person who's rank you tried to edit is not a member of your faction.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] The person who's rank you tried to edit is not a member of your faction.");
 				}
 			}
 			else
    			{
 
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not a leader.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not a leader.");
 			}
 		}
 		return 1;
@@ -6537,7 +6537,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -6901,7 +6901,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Vehicle ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Vehicle ID.");
 				}
 			}
 			else
@@ -6950,7 +6950,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Vehicle ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Vehicle ID.");
 				}
 			}
 			else
@@ -7179,7 +7179,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 					new color1;
 					color1 = strval(tmp);
-					if(color1 < 0 || color1 > 126) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] 0-126 = Valid Colors."); return 1; }
+					if(color1 < 0 || color1 > 126) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] 0-126 = Valid Colors."); return 1; }
 					tmp = strtok(cmdtext, idx);
 					if(!strlen(tmp))
 					{
@@ -7188,7 +7188,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					new color2;
 					color2 = strval(tmp);
-					if(color2 < 0 || color2 > 126) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] 0-126 = Valid Colors."); return 1; }
+					if(color2 < 0 || color2 > 126) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] 0-126 = Valid Colors."); return 1; }
 
 					new car = GetPlayerVehicleID(playerid) - 1;
 					new vehicleid = GetPlayerVehicleID(playerid);
@@ -7312,12 +7312,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your already in a faction, leave that first!");
+					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your already in a faction, leave that first!");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You have not been offered to join a faction!");
+			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You have not been offered to join a faction!");
 			}
 		}
   		else if(strcmp(x_info,"ticket",true) == 0)
@@ -7343,20 +7343,20 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 							    return 1;
 							}
 						}
 						else
 						{
-						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You must be near the officer that gave you the ticket!");
+						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You must be near the officer that gave you the ticket!");
 						    return 1;
 						}
 			        }
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have a ticket!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have a ticket!");
 				    return 1;
 				}
 			}
@@ -7390,20 +7390,20 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 							    return 1;
 							}
 						}
 						else
 						{
-						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You arn't near the person that offered you products!");
+						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You arn't near the person that offered you products!");
 						    return 1;
 						}
 			        }
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You havn't been offered products!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You havn't been offered products!");
 				    return 1;
 				}
 			}
@@ -7447,22 +7447,22 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 	 					else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much in your faction bank!");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much in your faction bank!");
 						}
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not the leader of this faction!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not the leader of this faction!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the bank!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the bank!");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}
 		return 1;
@@ -7505,17 +7505,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much in your till!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much in your till!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your business!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your business!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a business!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a business!");
 			}
 		}
 		return 1;
@@ -7559,27 +7559,27 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-									SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You may not deposit more than $500,000.");
+									SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You may not deposit more than $500,000.");
 								}
 							}
 							else
 							{
-								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] The amount you entered exceeds the $500,000 business limit.");
+								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] The amount you entered exceeds the $500,000 business limit.");
 							}
 						}
 						else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that amount of money!");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that amount of money!");
 						}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not inside your business!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not inside your business!");
 				}
    			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a business!");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a business!");
 			}
 		}
 		return 1;
@@ -7618,17 +7618,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that amount of money!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that amount of money!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the bank!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the bank!");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not even in a faction!");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not even in a faction!");
 			}
 		}
 		return 1;
@@ -7663,12 +7663,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that amount of money!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that amount of money!");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the bank!");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the bank!");
 			}
 		}
 		return 1;
@@ -7703,12 +7703,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much in your bank!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much in your bank!");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the bank!");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the bank!");
 			}
 		}
 		return 1;
@@ -7752,23 +7752,23 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You cannot wire yourself!");
+							    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You cannot wire yourself!");
 							}
 						}
 						else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Amount.");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Amount.");
 						}
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not at the bank!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not at the bank!");
 			}
 		}
 		return 1;
@@ -7783,7 +7783,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the bank!");
+  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the bank!");
 		}
 		return 1;
 	}
@@ -7799,12 +7799,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-	  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the bank!");
+	  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the bank!");
 			}
 		}
 		else
 		{
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 		}
 		return 1;
 	}
@@ -7820,12 +7820,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-	  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the faction materials storage!");
+	  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the faction materials storage!");
 			}
 		}
 		else
 		{
-  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 		}
 		return 1;
 	}
@@ -7841,12 +7841,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-	  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the faction materials storage!");
+	  			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the faction materials storage!");
 			}
 		}
   		else
 		{
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 		}
 		return 1;
 	}
@@ -7888,17 +7888,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much in your safe!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much in your safe!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your house!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your house!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a house!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a house!");
 			}
 		}
 		return 1;
@@ -7943,29 +7943,29 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
  								else
 								{
-	                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't enter more than $150000.");
+	                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't enter more than $150000.");
 								}
 							}
 							else
 							{
-                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You have exceeded the maximum amount allowed to be stored in a house ($150000)");
+                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You have exceeded the maximum amount allowed to be stored in a house ($150000)");
 							}
 							return 1;
 						}
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your house!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your house!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a house!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a house!");
 			}
 		}
 		return 1;
@@ -8008,17 +8008,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much drugs in your safe!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much drugs in your safe!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your house!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your house!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a house!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a house!");
 			}
 		}
 		return 1;
@@ -8063,29 +8063,29 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-	                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't enter more than 500!");
+	                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't enter more than 500!");
 								}
 							}
 							else
 							{
-                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You have exceeded the maximum amount of drugs allowed in a house. (500)");
+                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You have exceeded the maximum amount of drugs allowed in a house. (500)");
 							}
 							return 1;
 						}
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much drugs!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much drugs!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your house!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your house!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a house!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a house!");
 			}
 		}
 		return 1;
@@ -8130,29 +8130,29 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-	                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't enter more than 2000!");
+	                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't enter more than 2000!");
 								}
 							}
 							else
 							{
-                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You have exceeded the maximum amount of materials allowed in a house. (2000)");
+                                SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You have exceeded the maximum amount of materials allowed in a house. (2000)");
 							}
 							return 1;
 						}
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much materials!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much materials!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your house!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your house!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a house!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a house!");
 			}
 		}
 		return 1;
@@ -8195,17 +8195,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much materials in your safe!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much materials in your safe!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your house!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your house!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a house!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a house!");
 			}
 		}
 		return 1;
@@ -8244,7 +8244,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-		    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You are not even in a car!");
+		    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You are not even in a car!");
 		}
 		return 1;
 	}
@@ -8272,13 +8272,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 				if(moneys > 1000 && PlayerInfo[playerid][pLevel] < 5)
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Level 5 required for transactions greater than $1000.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Level 5 required for transactions greater than $1000.");
 					return 1;
 				}
 			}
 			if(moneys < 1 || moneys > 99999)
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Amount.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Amount.");
 			    return 1;
 			}
 			if (IsPlayerConnected(giveplayerid))
@@ -8306,23 +8306,23 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid amount.");
+								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid amount.");
 							}
 						}
       					else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't pay yourself!");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't pay yourself!");
 						}
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your too far away from that player.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your too far away from that player.");
 					}
 				}//invalid id
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -8408,14 +8408,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That player is not close enough!");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That player is not close enough!");
 					    return 1;
 					}
 				}
 			}
 	        else
 	        {
-	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 	            return 1;
 	        }
 		}
@@ -8548,7 +8548,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[USAGE:] /low [message]");
 				return 1;
 			}
-			format(string, sizeof(string), "[LOW:] %s says: %s", GetPlayerNameEx(playerid), result);
+			format(string, sizeof(string), "[LOW:] %s sagt: %s", GetPlayerNameEx(playerid), result);
 			ProxDetector(3.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 		}
 		return 1;
@@ -8575,7 +8575,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[USAGE:] /local [message]");
 				return 1;
 			}
-			format(string, sizeof(string), "%s says: %s", GetPlayerNameEx(playerid), result);
+			format(string, sizeof(string), "%s sagt: %s", GetPlayerNameEx(playerid), result);
 			ProxDetector(3.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
 		}
 		return 1;
@@ -8651,20 +8651,20 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-						SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You cant whisper yourself.");
+						SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You cant whisper yourself.");
 						}
 
 					}
 					else
 					{
-							SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You are not close enough.");
+							SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You are not close enough.");
 					}
 					return 1;
 				}
 			}
 			else
 			{
-					format(string, sizeof(string), "[ERROR:] No player with the ID %d is connected.", strval(tmp));
+					format(string, sizeof(string), "[FEHLER:] No player with the ID %d is connected.", strval(tmp));
 					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, string);
 			}
 		}
@@ -8682,7 +8682,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			if(TrackingPlayer[playerid] == 1)
 			{
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your already finding someone.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your already finding someone.");
 			return 1;
 			}
 			new id = strval(tmp);
@@ -8708,23 +8708,23 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-								SendClientMessage(id, COLOR_LIGHTYELLOW2, "[ERROR:] That players phone is not turned! You cannot track.");
+								SendClientMessage(id, COLOR_LIGHTYELLOW2, "[FEHLER:] That players phone is not turned! You cannot track.");
 							}
 						}
 					}
 					else
 					{
-						SendClientMessage(id, COLOR_LIGHTYELLOW2, "[ERROR:] You can't track yourself.");
+						SendClientMessage(id, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't track yourself.");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Player ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Player ID.");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not a detective!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not a detective!");
 			}
 		}
 		return 1;
@@ -8768,7 +8768,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Player ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Player ID.");
 				}
 			}
 			else
@@ -8788,7 +8788,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-		    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your not a donator!");
+		    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your not a donator!");
 		}
 		return 1;
 	}
@@ -8846,12 +8846,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							}
 							else
 							{
-	                            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't suspect yourself!");
+	                            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't suspect yourself!");
 							}
 						}
       					else
 						{
-      						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not on cop duty!");
+      						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not on cop duty!");
 						}
 						return 1;
 					}
@@ -8859,13 +8859,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in the correct faction.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in the correct faction.");
 				return 1;
 			}
 		}
   		else
 		{
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			return 1;
 		}
 		return 1;
@@ -8876,7 +8876,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		{
 			if(IsABike(GetPlayerVehicleID(playerid)))
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Bikes don't have windows.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Bikes don't have windows.");
 			    return 1;
 			}
 		    if(CarWindowStatus[GetPlayerVehicleID(playerid)] == 1)
@@ -8906,7 +8906,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your not in a vehicle!");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your not in a vehicle!");
 		}
 		return 1;
 	}
@@ -8919,7 +8919,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
  	}
  	else
  	{
- 	    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Invalid Faction.");
+ 	    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Invalid Faction.");
  	}
 	return 1;
 	}
@@ -8970,7 +8970,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    }
 	    else
 	    {
-	    	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You already have a job!");
+	    	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You already have a job!");
 	    }
 		return 1;
 	}
@@ -8979,11 +8979,11 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    if(PlayerInfo[playerid][pJob] != 0)
 	    {
      		PlayerInfo[playerid][pJob] = 0;
-     		SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You have quit your job.");
+     		SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You have quit your job.");
 	    }
 	    else
 	    {
-	    	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't even have a job!");
+	    	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't even have a job!");
 	    }
 		return 1;
 	}
@@ -9014,7 +9014,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    }
 	    else
 	    {
-	    	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't even have a job!");
+	    	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't even have a job!");
 	    }
 		return 1;
 	}
@@ -9024,7 +9024,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 		    if(PlayerInfo[playerid][pJob] != 2)
 		    {
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not a drugs dealer!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not a drugs dealer!");
 				return 1;
 		    }
 			tmp = strtok(cmdtext, idx);
@@ -9039,10 +9039,10 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			tmp = strtok(cmdtext, idx);
 			if(!strlen(tmp)) { return 1; }
 			needed = strval(tmp);
-			if(needed < 1 || needed > 50) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] 1-50 only."); return 1; }
+			if(needed < 1 || needed > 50) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] 1-50 only."); return 1; }
 			tmp = strtok(cmdtext, idx);
 			if(!strlen(tmp)) { return 1; }
-			if(needed > PlayerInfo[playerid][pDrugs]) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much!"); return 1; }
+			if(needed > PlayerInfo[playerid][pDrugs]) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much!"); return 1; }
 			if(IsPlayerConnected(playa))
 			{
 			    if(playa != INVALID_PLAYER_ID)
@@ -9061,18 +9061,18 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't sell yourself drugs!");
+						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't sell yourself drugs!");
 						}
 					}
 					else
 					{
-					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You arn't near that player!");
+					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You arn't near that player!");
 					}
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -9083,7 +9083,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 		    if (PlayerInfo[playerid][pJob] != 1)
 			{
-			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You are not an arms dealer.");
+			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You are not an arms dealer.");
 			    return 1;
 			}
 			new x_weapon[256],weapon[MAX_PLAYERS],ammo[MAX_PLAYERS],price[MAX_PLAYERS];
@@ -9107,15 +9107,15 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						return 1;
 					}
 				}
-				if(strcmp(x_weapon,"knife",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 49) { weapon[playerid] = 4; price[playerid] = 50; ammo[playerid] = 1; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else if(strcmp(x_weapon,"silenced",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 149) { weapon[playerid] = 23; price[playerid] = 125; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else if(strcmp(x_weapon,"eagle",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 199) { weapon[playerid] = 24; price[playerid] = 150; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else if(strcmp(x_weapon,"mp5",true) == 0) {	if(PlayerInfo[playerid][pMaterials] > 199) { weapon[playerid] = 29; price[playerid] = 200; ammo[playerid] = 200; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else if(strcmp(x_weapon,"shotgun",true) == 0) {	if(PlayerInfo[playerid][pMaterials] > 199) { weapon[playerid] = 25; price[playerid] = 200; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else if(strcmp(x_weapon,"ak47",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 599) { weapon[playerid] = 30; price[playerid] = 600; ammo[playerid] = 250; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else if(strcmp(x_weapon,"m4",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 599) { weapon[playerid] = 31; price[playerid] = 600; ammo[playerid] = 250; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else if(strcmp(x_weapon,"rifle",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 599) { weapon[playerid] = 33; price[playerid] = 600; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough materials!"); return 1; } }
-				else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Invalid weapon name."); return 1; }
+				if(strcmp(x_weapon,"knife",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 49) { weapon[playerid] = 4; price[playerid] = 50; ammo[playerid] = 1; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else if(strcmp(x_weapon,"silenced",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 149) { weapon[playerid] = 23; price[playerid] = 125; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else if(strcmp(x_weapon,"eagle",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 199) { weapon[playerid] = 24; price[playerid] = 150; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else if(strcmp(x_weapon,"mp5",true) == 0) {	if(PlayerInfo[playerid][pMaterials] > 199) { weapon[playerid] = 29; price[playerid] = 200; ammo[playerid] = 200; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else if(strcmp(x_weapon,"shotgun",true) == 0) {	if(PlayerInfo[playerid][pMaterials] > 199) { weapon[playerid] = 25; price[playerid] = 200; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else if(strcmp(x_weapon,"ak47",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 599) { weapon[playerid] = 30; price[playerid] = 600; ammo[playerid] = 250; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else if(strcmp(x_weapon,"m4",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 599) { weapon[playerid] = 31; price[playerid] = 600; ammo[playerid] = 250; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else if(strcmp(x_weapon,"rifle",true) == 0) { if(PlayerInfo[playerid][pMaterials] > 599) { weapon[playerid] = 33; price[playerid] = 600; ammo[playerid] = 50; } else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough materials!"); return 1; } }
+				else { SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Invalid weapon name."); return 1; }
 				if (ProxDetectorS(5.0, playerid, giveplayerid))
 				{
 					format(string, sizeof(string), "[INFO:] You gave %s, a %s with %d ammo, for %d materials.", GetPlayerNameEx(giveplayerid),x_weapon, ammo[playerid], price[playerid]);
@@ -9128,13 +9128,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You arn't close enough!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You arn't close enough!");
 					return 1;
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -9162,7 +9162,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have any drugs.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have any drugs.");
 			}
 		}//not connected
 		return 1;
@@ -9173,7 +9173,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 		    if (PlayerInfo[playerid][pJob] != 5)
 			{
-			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your not a products seller!");
+			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your not a products seller!");
 			    return 1;
 			}
 			new x_nr[256];
@@ -9189,7 +9189,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			    {
 			        if(PlayerInfo[playerid][pProducts] >= 500)
 			        {
-			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't hold more than 500 products.");
+			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't hold more than 500 products.");
 				        return 1;
 			        }
 			        tmp = strtok(cmdtext, idx);
@@ -9199,7 +9199,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					new moneys;
 					moneys = strval(tmp);
-					if(moneys < 1 || moneys > 500) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Maximum number of products is 500."); return 1; }
+					if(moneys < 1 || moneys > 500) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Maximum number of products is 500."); return 1; }
 					new price = moneys * PRODUCT_PRICE;
 					if(GetPlayerCash(playerid) > price)
 					{
@@ -9211,13 +9211,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-					    format(string, sizeof(string), "[ERROR:] You don't have $%d.", price);
+					    format(string, sizeof(string), "[FEHLER:] You don't have $%d.", price);
 					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, string);
 					}
 			    }
 			    else
 			    {
-			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the products purchase place.");
+			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the products purchase place.");
 			        return 1;
 			    }
 			}
@@ -9230,7 +9230,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				new id;
 				id = ReturnUser(tmp);
-				if(id == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't sell yourself products!"); return 1;}
+				if(id == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't sell yourself products!"); return 1;}
 				
                 tmp = strtok(cmdtext, idx);
 				new amount;
@@ -9247,7 +9247,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[USAGE:] /products [sell] [playerid] [amount] [cost]");
 					return 1;
 				}
-				if(cost < 1 || cost > 99999) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Products must be above 1 and below 99999."); return 1; }
+				if(cost < 1 || cost > 99999) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Products must be above 1 and below 99999."); return 1; }
 
 				if(IsPlayerConnected(id))
 				{
@@ -9266,18 +9266,18 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not near that player!");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not near that player!");
 						}
 	    			}
     			}
     			else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Usage.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Usage.");
 			    return 1;
 			}
 		}
@@ -9289,7 +9289,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 		    if (PlayerInfo[playerid][pJob] != 2)
 			{
-			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your not a drug dealer!");
+			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your not a drug dealer!");
 			    return 1;
 			}
 			new x_nr[256];
@@ -9305,7 +9305,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			    {
 			        if(DrugsHolding[playerid] >= 50)
 			        {
-			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't hold any more packages.");
+			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't hold any more packages.");
 				        return 1;
 			        }
 			        tmp = strtok(cmdtext, idx);
@@ -9315,7 +9315,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					new moneys;
 					moneys = strval(tmp);
-					if(moneys < 1 || moneys > 50) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Maximum number of grams is 50."); return 1; }
+					if(moneys < 1 || moneys > 50) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Maximum number of grams is 50."); return 1; }
 					new price = moneys * 50;
 					if(GetPlayerCash(playerid) > price)
 					{
@@ -9327,13 +9327,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-					    format(string, sizeof(string), "[ERROR:] You don't have $%d.", price);
+					    format(string, sizeof(string), "[FEHLER:] You don't have $%d.", price);
 					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, string);
 					}
 			    }
 			    else
 			    {
-			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the drugs purchase place!");
+			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the drugs purchase place!");
 			        return 1;
 			    }
 			}
@@ -9351,7 +9351,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			        }
 			        else
 			        {
-			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even have any drugs!");
+			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even have any drugs!");
 				        return 1;
 			        }
 			    }
@@ -9363,7 +9363,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Usage.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Usage.");
 			    return 1;
 			}
 		}
@@ -9375,7 +9375,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 		    if (PlayerInfo[playerid][pJob] != 1)
 			{
-			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your not an arms dealer!");
+			    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your not an arms dealer!");
 			    return 1;
 			}
 			new x_nr[256];
@@ -9391,7 +9391,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			    {
 			        if(MatsHolding[playerid] >= 10)
 			        {
-			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't hold any more packages.");
+			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't hold any more packages.");
 				        return 1;
 			        }
 			        tmp = strtok(cmdtext, idx);
@@ -9402,7 +9402,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					new moneys;
 					moneys = strval(tmp);
-					if(moneys < 1 || moneys > 10) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Maximum number of packages is 10."); return 1; }
+					if(moneys < 1 || moneys > 10) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Maximum number of packages is 10."); return 1; }
 					new price = moneys * 100;
 					if(GetPlayerCash(playerid) > price)
 					{
@@ -9413,13 +9413,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-					    format(string, sizeof(string), "[ERROR:] You don't have $%d.", price);
+					    format(string, sizeof(string), "[FEHLER:] You don't have $%d.", price);
 					    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, string);
 					}
 			    }
 			    else
 			    {
-			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the materials package place!");
+			        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the materials package place!");
 			        return 1;
 			    }
 			}
@@ -9437,7 +9437,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			        }
 			        else
 			        {
-			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even have any packages!");
+			            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even have any packages!");
 				        return 1;
 			        }
 			    }
@@ -9449,7 +9449,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Usage.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Usage.");
 			    return 1;
 			}
 		}
@@ -9513,7 +9513,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Symbol , is not allowed!");
+				    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Symbol , is not allowed!");
 				}
 			}
 		}
@@ -9549,7 +9549,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		{
 			if(Mobile[playerid] != 255)
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are already on a phone call! (/hangup).");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are already on a phone call! (/hangup).");
 				return 1;
 			}
 			for(new i = 0; i < MAX_PLAYERS; i++)
@@ -9656,7 +9656,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			if(PlayerInfo[playerid][pPhoneNumber] == 0)
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:]  You don't have a mobile phone, you can buy one from a phone shop/network.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:]  You don't have a mobile phone, you can buy one from a phone shop/network.");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pSex] == 1)
@@ -9699,7 +9699,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						    {
 						        if(PhoneOnline[giveplayerid])
 						        {
-						            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That players phone is turned off.");
+						            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That players phone is turned off.");
 						            return 1;
 						        }
 								format(string, sizeof(string), "[TXT:] From: %s (%d), Message: %s", GetPlayerNameEx(playerid),PlayerInfo[playerid][pPhoneNumber],result);
@@ -9717,7 +9717,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 				}
 			}
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Message not sent.");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Message not sent.");
 		}
 		return 1;
 	}
@@ -9738,7 +9738,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	}
 	else
 	{
-		SendClientMessage(playerid,  COLOR_LIGHTYELLOW2, "[ERROR:] You don't have a phone, how could you have a number?");
+		SendClientMessage(playerid,  COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have a phone, how could you have a number?");
 	}
 	return 1;
 	}
@@ -9759,7 +9759,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	}
 	else
 	{
-		SendClientMessage(playerid,  COLOR_LIGHTYELLOW2, "[ERROR:] You don't have a phone!");
+		SendClientMessage(playerid,  COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have a phone!");
 	}
 	return 1;
 	}
@@ -9832,7 +9832,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 				}
 			}
-			SendClientMessage(playerid,  COLOR_LIGHTYELLOW2, "[ERROR:] You are not in a phone call!");
+			SendClientMessage(playerid,  COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in a phone call!");
 		}
 		return 1;
 	}
@@ -9848,7 +9848,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			if(PlayerInfo[playerid][pPhoneNumber] == 0)
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even have a phone!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even have a phone!");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pSex] == 1)
@@ -9862,19 +9862,19 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			new phonenumb = strval(tmp);
 			if(phonenumb == 911)
 			{
-				SendClientMessage(playerid, COLOR_WHITE, "Operator says: Hello, LSPD how may i be of assistance.");
+				SendClientMessage(playerid, COLOR_WHITE, "Operator sagt: Hello, LSPD how may i be of assistance.");
 				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[INFO:] Please keep your call vivid, and all in once sentence.");
 				Mobile[playerid] = 911;
 				return 1;
 			}
 			if(phonenumb == PlayerInfo[playerid][pPhoneNumber])
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That line is being used.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That line is being used.");
 				return 1;
 			}
 			if(Mobile[playerid] != 255)
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your already on a call.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your already on a call.");
 				return 1;
 			}
 			for(new i = 0; i < MAX_PLAYERS; i++)
@@ -9891,7 +9891,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						    {
 						        if(PhoneOnline[giveplayerid])
 						        {
-						            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That user's phone is turned off.");
+						            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That user's phone is turned off.");
 						            return 1;
 						        }
 								if (Mobile[giveplayerid] == 255)
@@ -9911,7 +9911,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That person is on another phonecall.");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That person is on another phonecall.");
 						}
 					}
 				}
@@ -9965,7 +9965,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 								}
 							}
 							else if(strcmp(x_info,"shovel",true) == 0)
@@ -9984,7 +9984,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 								}
 							}
 							else if(strcmp(x_info,"chainsaw",true) == 0)
@@ -10003,7 +10003,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 								}
 							}
        						else if(strcmp(x_info,"phonebook",true) == 0)
@@ -10022,7 +10022,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 								}
 							}
 							else if(strcmp(x_info,"flowers",true) == 0)
@@ -10099,7 +10099,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 									    return 1;
 									}
 								}
@@ -10119,7 +10119,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 									    return 1;
 									}
 								}
@@ -10139,7 +10139,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 									    return 1;
 									}
 								}
@@ -10159,7 +10159,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 									    return 1;
 									}
 								}
@@ -10179,7 +10179,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 									    return 1;
 									}
 								}
@@ -10199,7 +10199,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 									    return 1;
 									}
 								}
@@ -10219,14 +10219,14 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 									    return 1;
 									}
 								}
 							}
 							else
 							{
-								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have a weapon license, you can only buy:");
+								SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have a weapon license, you can only buy:");
 								SendClientMessage(playerid, COLOR_RED, "(Type name, no spaces, no capitals. Example. deagle)");
 								SendClientMessage(playerid, COLOR_WHITE, "* Pepperspray - Price: $1000 - 500 Ammo.");
 								SendClientMessage(playerid, COLOR_WHITE, "* Body Armour - Price: $1500.");
@@ -10247,7 +10247,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								}
 								else
 								{
-								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+								    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 								    return 1;
 								}
 							}
@@ -10270,7 +10270,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 								    }
 								    else
 								    {
-								    	SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your armour's full!");
+								    	SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your armour's full!");
 								    	return 1;
 								    }
 								}
@@ -10409,7 +10409,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 									    return 1;
 									}
 								}
@@ -10430,7 +10430,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 									    return 1;
 									}
 								}
@@ -10451,7 +10451,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 									    return 1;
 									}
 								}
@@ -10472,7 +10472,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 									    return 1;
 									}
 								}
@@ -10493,7 +10493,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 									    return 1;
 									}
 								}
@@ -10514,7 +10514,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 									    return 1;
 									}
 								}
@@ -10535,7 +10535,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 									}
 									else
 									{
-									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money.");
+									    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money.");
 									    return 1;
 									}
 								}
@@ -10673,22 +10673,22 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 	 					else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] There isn't that much drugs in storage!");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] There isn't that much drugs in storage!");
 						}
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the faction storage facility!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the faction storage facility!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not the leader of the faction!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not the leader of the faction!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in a faction!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in a faction!");
 			}
 		}
 		return 1;
@@ -10730,17 +10730,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much drugs!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much drugs!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the faction storage facility!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the faction storage facility!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}
 		return 1;
@@ -10784,22 +10784,22 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 	 					else
 						{
-							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] There isn't that much materials in storage!");
+							SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] There isn't that much materials in storage!");
 						}
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the faction storage facility!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the faction storage facility!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not the leader of the faction!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not the leader of the faction!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in a faction!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in a faction!");
 			}
 		}
 		return 1;
@@ -10841,17 +10841,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
  					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much materials!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much materials!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not at the faction storage facility!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not at the faction storage facility!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Faction.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Faction.");
 			}
 		}
 		return 1;
@@ -10883,12 +10883,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You must be at your house entrance to sell it!");
+				    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You must be at your house entrance to sell it!");
 				}
 			}
 			else
 			{
-    			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't even own a house!");
+    			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't even own a house!");
 			}
 		}
 		return 1;
@@ -10922,7 +10922,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2,"[ERROR:] You don't have a key for this house!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have a key for this house!");
 						return 1;
 					}
 				}
@@ -10981,7 +10981,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2,"[ERROR:] You don't have a key for this business!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have a key for this business!");
 						return 1;
 					}
 				}
@@ -11003,7 +11003,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 					if(PlayerInfo[playerid][pHouseKey] != 255 && strcmp(playername, Houses[PlayerInfo[playerid][pHouseKey]][Owner], true) == 0)
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You already own a house!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You already own a house!");
 						return 1;
 					}
 					if(GetPlayerCash(playerid) >= Houses[h][RentCost])
@@ -11045,7 +11045,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				if(strval(tmp) < 1 || strval(tmp) > 99999)
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Please enter an amount between $1-99999.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Please enter an amount between $1-99999.");
 					return 1;
 				}
 				Houses[bouse][RentCost] = strval(tmp);
@@ -11056,7 +11056,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a house!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a house!");
 				return 1;
 			}
 		}
@@ -11106,12 +11106,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 				    if(Houses[h][HousePrice] == 0)
 				    {
-				        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] A price isn't set for this house, it's possibly not ment to be used.");
+				        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] A price isn't set for this house, it's possibly not ment to be used.");
 						return 1;
 				    }
 					if(PlayerInfo[playerid][pHouseKey] != 255 && strcmp(playername, Houses[PlayerInfo[playerid][pHouseKey]][Owner], true) == 0)
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can only own one house, please sell your original house first.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can only own one house, please sell your original house first.");
 						return 1;
 					}
 					if(GetPlayerCash(playerid) > Houses[h][HousePrice])
@@ -11132,7 +11132,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 						return 1;
 					}
 				}
@@ -11156,7 +11156,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				if(strval(tmp) < 0 || strval(tmp) > 99999)
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Minimum entrance is fee $0, Maximum entrance is fee $99999.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Minimum entrance is fee $0, Maximum entrance is fee $99999.");
 					return 1;
 				}
 				Businesses[bouse][EntranceCost] = strval(tmp);
@@ -11166,7 +11166,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a business!");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a business!");
 			}
 		}
 		return 1;
@@ -11208,17 +11208,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Symbol, the symbol | is not allowed.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Symbol, the symbol | is not allowed.");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You must be at your business entrance/inside your business to change it's name!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You must be at your business entrance/inside your business to change it's name!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a business!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a business!");
 			}
 		}
 		return 1;
@@ -11240,12 +11240,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in your business!");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in your business!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a business!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a business!");
 			}
 		}
 		return 1;
@@ -11276,12 +11276,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-				    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You must be at your business entrance to sell it!");
+				    SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You must be at your business entrance to sell it!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't even own a business!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't even own a business!");
 			}
 		}
 		return 1;
@@ -11300,12 +11300,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 				    if(Businesses[h][BizPrice] == 0)
 				    {
-				        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] A price isn't set for this business, it's possibly not ment to be used.");
+				        SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] A price isn't set for this business, it's possibly not ment to be used.");
 						return 1;
 				    }
 					if(PlayerInfo[playerid][pBizKey] != 255 && strcmp(playername, Businesses[PlayerInfo[playerid][pBizKey]][Owner], true) == 0)
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can only own one business, sell your original business first!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can only own one business, sell your original business first!");
 						return 1;
 					}
 					if(GetPlayerCash(playerid) > Businesses[h][BizPrice])
@@ -11326,7 +11326,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have enough money!");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have enough money!");
 						return 1;
 					}
 				}
@@ -11348,17 +11348,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough money!");
+					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough money!");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You already have a license!");
+				SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You already have a license!");
 			}
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You are not at the driving school!");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You are not at the driving school!");
 		}
 		return 1;
 	}
@@ -11379,18 +11379,18 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough money!");
+						SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough money!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You already have a license!");
+					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You already have a license!");
 				}
 			}
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You are not at the license location!");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You are not at the license location!");
 		}
 		return 1;
 	}
@@ -11411,18 +11411,18 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough money!");
+						SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough money!");
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You already have a license!");
+					SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You already have a license!");
 				}
 			}
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You are not at the license location!");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You are not at the license location!");
 		}
 		return 1;
 	}
@@ -11456,17 +11456,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		        }
 		        else
 		        {
-		        	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your fuel is full!");
+		        	SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your fuel is full!");
 		        }
 		    }
       		else
       		{
-       			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have enough money!");
+       			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have enough money!");
       		}
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You are not at a Gas Station!");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You are not at a Gas Station!");
 		}
  		return 1;
 	}
@@ -11500,7 +11500,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_RED,"[ERROR:] Your not an administrator!");
+			SendClientMessage(playerid,COLOR_RED,"[FEHLER:] Your not an administrator!");
 		}
 		return 1;
 	}
@@ -11513,7 +11513,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_RED,"[ERROR:] Your not an administrator!");
+			SendClientMessage(playerid,COLOR_RED,"[FEHLER:] Your not an administrator!");
 		}
 		return 1;
 	}
@@ -11526,7 +11526,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_RED,"[ERROR:] Your not an administrator!");
+			SendClientMessage(playerid,COLOR_RED,"[FEHLER:] Your not an administrator!");
 		}
 		return 1;
 	}
@@ -11542,7 +11542,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_RED,"[ERROR:] Your not an administrator!");
+			SendClientMessage(playerid,COLOR_RED,"[FEHLER:] Your not an administrator!");
 		}
 		return 1;
 	}
@@ -11561,7 +11561,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Invalid Faction.");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Invalid Faction.");
 		}
 		return 1;
 	}
@@ -11573,7 +11573,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your not a leader!");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your not a leader!");
 		}
 		return 1;
 	}
@@ -11596,7 +11596,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_RED,"[ERROR:] Your not an administrator!");
+			SendClientMessage(playerid,COLOR_RED,"[FEHLER:] Your not an administrator!");
 		}
 		return 1;
 	}
@@ -11608,7 +11608,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_RED,"[ERROR:] Your not an administrator!");
+			SendClientMessage(playerid,COLOR_RED,"[FEHLER:] Your not an administrator!");
 		}
 		return 1;
 	}
@@ -11623,7 +11623,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_RED,"[ERROR:] Your not an administrator!");
+			SendClientMessage(playerid,COLOR_RED,"[FEHLER:] Your not an administrator!");
 		}
 		return 1;
 	}
@@ -11633,12 +11633,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 			if ((OOCStatus) == 0 && PlayerInfo[playerid][pAdmin] < 1)
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Global OOC is currently disabled.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Global OOC is currently disabled.");
 				return 1;
 			}
 			if(Muted[playerid])
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't speak, your muted!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't speak, your muted!");
 				return 1;
 			}
 			new length = strlen(cmdtext);
@@ -11691,7 +11691,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
          		State=GetPlayerState(playerid);
 		        if(State!=PLAYER_STATE_DRIVER)
 		        {
-		        	SendClientMessage(playerid,COLOR_GREY,"[ERROR:] You can only eject a user as the driver!");
+		        	SendClientMessage(playerid,COLOR_GREY,"[FEHLER:] You can only eject a user as the driver!");
 		            return 1;
 		        }
 				tmp = strtok(cmdtext, idx);
@@ -11708,7 +11708,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 				    if(playa != INVALID_PLAYER_ID)
 				    {
-				        if(playa == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You can't eject yourself!"); return 1; }
+				        if(playa == playerid) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You can't eject yourself!"); return 1; }
 				        if(IsPlayerInVehicle(playa,test))
 				        {
 							format(string, sizeof(string), "[INFO:] You have thrown out: %s.", GetPlayerNameEx(playa));
@@ -11719,19 +11719,19 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] That user is not even in your car!");
+						    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] That user is not even in your car!");
 						    return 1;
 						}
 					}
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 				}
 			}
 			else
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You are not in a vehicle!");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You are not in a vehicle!");
 			}
 		}
 		return 1;
@@ -11777,7 +11777,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		else
 		{
-			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] Your not an administrator.");
+			SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] Your not an administrator.");
 		}
 		return 1;
 	}
@@ -11803,12 +11803,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -11827,12 +11827,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			moneys = strval(tmp);
 			if(moneys < 0)
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid Amount.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid Amount.");
 				return 1;
 			}
 			if(GetPlayerCash(playerid) < moneys)
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You don't have that much!");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You don't have that much!");
 				return 1;
 			}
 			GivePlayerCash(playerid, -moneys);
@@ -11855,7 +11855,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -11899,7 +11899,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -11957,7 +11957,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -12003,13 +12003,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 					}
 				}
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_GRAD1, "[ERROR:] Invalid ID.");
+				SendClientMessage(playerid, COLOR_GRAD1, "[FEHLER:] Invalid ID.");
 			}
 		}
 		return 1;
@@ -12034,7 +12034,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_GRAD1, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_GRAD1, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12059,7 +12059,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_GRAD1, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_GRAD1, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12084,7 +12084,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_GRAD1, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_GRAD1, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12130,7 +12130,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 					}
 					else
 					{
-						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+						SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 					}
 				}
 			}
@@ -12170,7 +12170,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12204,7 +12204,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12245,7 +12245,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator!");
 				return 1;
 			}
 		}
@@ -12288,7 +12288,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12311,7 +12311,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12332,7 +12332,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				txtid = strval(tmp);
 				if(txtid == 2)
 				{
-					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:]");
+					SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:]");
 					return 1;
 				}
 				new length = strlen(cmdtext);
@@ -12365,7 +12365,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator!");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator!");
 				return 1;
 			}
 		}
@@ -12413,7 +12413,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12445,7 +12445,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12477,7 +12477,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12509,7 +12509,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12541,7 +12541,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12573,7 +12573,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12605,7 +12605,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12637,7 +12637,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12648,7 +12648,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	    {
 	        if(PlayerInfo[playerid][pAdmin] < 20)
 			{
-			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+			    SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			    return 1;
 			}
 			tmp = strtok(cmdtext, idx);
@@ -12659,7 +12659,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			new weather;
 			weather = strval(tmp);
-			if(weather < 0||weather > 45) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] 0-45."); return 1; }
+			if(weather < 0||weather > 45) { SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] 0-45."); return 1; }
 			SetWeather(weather);
 		}
 		return 1;
@@ -12691,7 +12691,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12723,7 +12723,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		return 1;
@@ -12756,7 +12756,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			tmp = strtok(cmdtext, idx);
 			ammo = strval(tmp);
 			if(ammo <1||ammo > 999)
-			{ SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Ammo must be , 1-999."); return 1; }
+			{ SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Ammo must be , 1-999."); return 1; }
 			if (PlayerInfo[playerid][pAdmin] >= 5)
 			{
 			    if(IsPlayerConnected(playa))
@@ -12769,7 +12769,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 			}
 		}
 		}
@@ -12789,7 +12789,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	        }
 	        else
 	        {
-	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 	            return 1;
 	        }
 	    }
@@ -12816,7 +12816,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	        }
 	        else
 	        {
-	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator.");
+	            SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator.");
 	            return 1;
 	        }
 	    }
@@ -12853,7 +12853,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_GRAD1, "[ERROR:] Your not an administrator/correct level.");
+				SendClientMessage(playerid, COLOR_GRAD1, "[FEHLER:] Your not an administrator/correct level.");
 			}
 		}
 		return 1;
@@ -12876,7 +12876,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			else
 			{
-				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] Your not an administrator/correct level.");
+				SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] Your not an administrator/correct level.");
 			}
 		}
 		return 1;
@@ -13023,7 +13023,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 						}
 						else
 						{
-							SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[ERROR:] You don't have that much money!");
+							SendClientMessage(playerid,COLOR_LIGHTYELLOW2,"[FEHLER:] You don't have that much money!");
 						}
 					}
 				}
@@ -13540,7 +13540,7 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 			{
    				SetPlayerPos(playerid,playerposx, playerposy, playerposz);
 			}
-			SendClientMessage(playerid,COLOR_WHITE,"[ERROR:] Your not taking your driving test!");
+			SendClientMessage(playerid,COLOR_WHITE,"[FEHLER:] Your not taking your driving test!");
 		}
 	}
     if(DynamicCars[vehicleid-1][FactionCar] != 255)
@@ -13573,7 +13573,7 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 		GetPlayerPos(playerid, playerposx, playerposy, playerposz);
   		if(PlayerInfo[playerid][pFlyLic] == 0)
 		{
-  			SendClientMessage(playerid,COLOR_WHITE,"[ERROR:] You don't have a flying license!");
+  			SendClientMessage(playerid,COLOR_WHITE,"[FEHLER:] You don't have a flying license!");
 			if(PlayerInfo[playerid][pAdmin] == 0)
 			{
    				SetPlayerPos(playerid,playerposx, playerposy, playerposz);
@@ -13790,7 +13790,7 @@ public SetPlayerSpawn(playerid)
 		    SetPlayerVirtualWorld(playerid,2); //BUILDING ID 2, MAKE SURE PD IS ID 2
 		    SetPlayerInterior(playerid, 6);
 			SetPlayerPos(playerid,264.5743,77.5118,1001.0391);
-			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[ERROR:] You havn't finished your jail time!");
+			SendClientMessage(playerid, COLOR_LIGHTYELLOW2, "[FEHLER:] You havn't finished your jail time!");
 			return 1;
 		}
 	    new house = PlayerInfo[playerid][pHouseKey];
